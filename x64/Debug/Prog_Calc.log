@@ -1,6 +1,6 @@
-﻿  Prog_Calc.cpp
+﻿  moc Prog_Calc.h
+  Prog_Calc.cpp
   main.cpp
   moc_Prog_Calc.cpp
-  qrc_Prog_Calc.cpp
-  LINK : D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   Prog_Calc.vcxproj -> D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.exe
+  Prog_Calc.vcxproj -> D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.pdb (Full PDB)

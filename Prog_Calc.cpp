@@ -1,4 +1,4 @@
-#include "Prog_Calc.h"
+﻿#include "Prog_Calc.h"
 
 Prog_Calc::Prog_Calc(QWidget* parent)
     : QMainWindow(parent),

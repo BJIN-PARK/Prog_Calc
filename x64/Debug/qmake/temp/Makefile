@@ -14,7 +14,7 @@ CC            = cl
 CXX           = cl
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zi -MDd -W3 -w44456 -w44457 -w44458 /Fdqtvars.vc.pdb $(DEFINES)
-CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -EHsc /Fdqtvars.vc.pdb $(DEFINES)
+CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -EHsc /Fdqtvars.vc.pdb $(DEFINES)
 INCPATH       = -ID:\Edu\Assignment\Prog_Calc\x64\Debug\qmake\temp -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\include -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\include\QtWidgets -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\include\QtGui -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\include\QtANGLE -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\include\QtCore -ID:\Edu\Assignment\Prog_Calc\x64\Debug\qmake\temp -I\include -IC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\mkspecs\win32-msvc 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
@@ -491,7 +491,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: C:\Qt\Qt5.10.0\5.10.0\msvc2015_64\mkspecs\features\data\dummy.cpp
-	cl -BxC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E C:\Qt\Qt5.10.0\5.10.0\msvc2015_64\mkspecs\features\data\dummy.cpp 2>NUL >moc_predefs.h
+	cl -BxC:\Qt\Qt5.10.0\5.10.0\msvc2015_64\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E C:\Qt\Qt5.10.0\5.10.0\msvc2015_64\mkspecs\features\data\dummy.cpp 2>NUL >moc_predefs.h
 
 compiler_moc_header_make_all:
 compiler_moc_header_clean:
