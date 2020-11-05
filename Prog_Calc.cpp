@@ -6,6 +6,8 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 {
     ui->setupUi(this);
 
+	numeralSystemMode = 16;
+
 	connect(ui->Cancel_btn, &QPushButton::clicked, this, &Prog_Calc::onCancelClicked);
     connect(ui->Hex_btn, &QPushButton::clicked, this, &Prog_Calc::onHexClicked);
     connect(ui->Dec_btn, &QPushButton::clicked, this, &Prog_Calc::onDecClicked);
@@ -38,7 +40,6 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->L_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onLeftBracketClicked);
 	connect(ui->R_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onRightBracketClicked);
 
-
     ui->Edit_Calc_Num->setReadOnly(true);
 	ui->Edit_Result_Num->setReadOnly(true);
 	ui->Dec_Point_btn->setEnabled(false);
@@ -52,12 +53,11 @@ Prog_Calc::~Prog_Calc()
 
 void Prog_Calc::onCancelClicked()
 {
-	formula = "";
-	hex_Result = 0;
-	dec_Result = 0;
-	oct_Result = 0;
-	bin_Result = 0;
-	result_done = 0;
+	dec_formula = "";
+	dec_Result = "";
+	result_done = false;
+	ui->Edit_Calc_Num->setText("");
+	ui->Edit_Result_Num->setText("");
 }
 
 void Prog_Calc::onHexClicked()
@@ -82,127 +82,127 @@ void Prog_Calc::onBinClicked()
 
 void Prog_Calc::onZeroClicked()
 {
-
+	madeNum.append("0");
 }
 
 void Prog_Calc::onOneClicked()
 {
-
+	madeNum.append("1");
 }
 
 void Prog_Calc::onTwoClicked()
 {
-
+	madeNum.append("2");
 }
 
 void Prog_Calc::onThreeClicked()
 {
-
+	madeNum.append("3");
 }
 
 void Prog_Calc::onFourClicked()
 {
-
+	madeNum.append("4");
 }
 
 void Prog_Calc::onFiveClicked()
 {
-
+	madeNum.append("5");
 }
 
 void Prog_Calc::onSixClicked()
 {
-
+	madeNum.append("6");
 }
 
 void Prog_Calc::onSevenClicked()
 {
-
+	madeNum.append("7");
 }
 
 void Prog_Calc::onEightClicked()
 {
-
+	madeNum.append("8");
 }
 
 void Prog_Calc::onNineClicked()
 {
-
+	madeNum.append("9");
 }
 
 void Prog_Calc::onAClicked()
 {
-
+	madeNum.append("A");
 }
 
 void Prog_Calc::onBClicked()
 {
-
+	madeNum.append("B");
 }
 
 void Prog_Calc::onCClicked()
 {
-	
+	madeNum.append("C");
 }
 
 void Prog_Calc::onDClicked()
 {
-	
+	madeNum.append("D");
 }
 
 void Prog_Calc::onEClicked()
 {
-	
+	madeNum.append("E");
 }
 
 void Prog_Calc::onFClicked()
 {
-	
+	madeNum.append("F");
 }
 
 void Prog_Calc::onBackSpaceClicked()
 {
-
+	madeNum.append("BackSpace");
 }
 
 void Prog_Calc::onAddClicked()
 {
-
+	madeNum.append("+");
 }
 
 void Prog_Calc::onSubtractClicked()
 {
-
+	madeNum.append("-");
 }
 
 void Prog_Calc::onMultiplyClicked()
 {
-
+	madeNum.append("*");
 }
 
 void Prog_Calc::onDivisonClicked()
 {
-
+	madeNum.append("/");
 }
 
 void Prog_Calc::onPercentClicked()
 {
-
+	madeNum.append("%");
 }
 
 void Prog_Calc::onEqualClicked()
 {
-
+	madeNum.append("=");
 }
 
 void Prog_Calc::onLeftBracketClicked()
 {
-
+	madeNum.append("(");
 }
 
 void Prog_Calc::onRightBracketClicked()
 {
-
+	madeNum.append(")");
 }
 
 void Prog_Calc::setEnableHexBtn()
@@ -283,5 +283,5 @@ void Prog_Calc::setDisableOctBtn()
 
 void Prog_Calc::calculate(const QString )
 {
-	
+/*	if (madeNum.end() == "+")*/
 }

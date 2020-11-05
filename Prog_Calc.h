@@ -46,13 +46,17 @@ public slots:
 private:
     Ui::Prog_Calc* ui;
     int numeralSystemMode;
-    int hex_Result;
-    int dec_Result;
-    int oct_Result;
-    int bin_Result;
     int cnt;
     int operand;
-    QString formula;
+    QString madeNum;
+	QString hex_Result;
+	QString dec_Result;
+	QString oct_Result;
+	QString bin_Result;
+    QString hex_formula;
+    QString dec_formula;
+    QString oct_formula;
+    QString bin_formula;
     QString insertedNum;
     bool result_done;
 
