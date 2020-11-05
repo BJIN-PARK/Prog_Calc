@@ -1,0 +1,5 @@
+﻿  uic Prog_Calc.ui
+  Prog_Calc.cpp
+  main.cpp
+  moc_Prog_Calc.cpp
+  Prog_Calc.vcxproj -> D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.exe
