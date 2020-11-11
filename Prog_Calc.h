@@ -1,7 +1,13 @@
 ﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QKeyEvent>
+#include <iostream>
+#include <sstream>
+#include <stack>
 #include "ui_Prog_Calc.h"
+
+using namespace std;
 
 class Prog_Calc : public QMainWindow
 {
@@ -16,52 +22,41 @@ public slots:
     void onDecClicked();
     void onOctClicked();
     void onBinClicked();
-    void onZeroClicked();
-    void onOneClicked();
-    void onTwoClicked();
-    void onThreeClicked();
-    void onFourClicked();
-    void onFiveClicked();
-    void onSixClicked();
-    void onSevenClicked();
-    void onEightClicked();
-    void onNineClicked();
-    void onAClicked();
-    void onBClicked();
-    void onCClicked();
-    void onDClicked();
-    void onEClicked();
-    void onFClicked();
-    void onCancelClicked();
-    void onBackSpaceClicked();
-    void onAddClicked();
-    void onSubtractClicked();
-    void onMultiplyClicked();
-    void onDivisonClicked();
-    void onPercentClicked();
-    void onEqualClicked();
-    void onLeftBracketClicked();
-    void onRightBracketClicked();
+    void onNumClicked();
+    void onCalcClicked();
 
 private:
     Ui::Prog_Calc* ui;
     int numeralSystemMode;
     int cnt;
-    int operand;
-    QString madeNum;
-	QString hex_Result;
-	QString dec_Result;
-	QString oct_Result;
-	QString bin_Result;
-    QString hex_formula;
-    QString dec_formula;
-    QString oct_formula;
-    QString bin_formula;
-    QString insertedNum;
-    bool result_done;
+    struct operand
+    {
+        int operandPriority;
+        string oper;
+    };
+
+    stack<int> numStack;
+    stack<operand> operStack;
+    QString m_insertedNum;
+	QString m_hex_Result;
+	QString m_dec_Result;
+	QString m_oct_Result;
+	QString m_bin_Result;
+    QString m_hex_formula;
+    QString m_dec_formula;
+    QString m_oct_formula;
+    QString m_bin_formula;
+    bool m_result_done;
 
 protected:
-    void calculate(const QString formula);
+    void keyPressEvent(QKeyEvent* event);
+    void calculate(QString m_dec_formula);
+    void decToHex(QString m_insertedNum);
+    void decToOct(QString m_insertedNum);
+    void decToBin(QString m_insertedNum);
+    void hexToDec(QString m_insertedNum);
+    void octToDec(QString m_insertedNum);
+    void binToDec(QString m_insertedNum);
     void setEnableHexBtn();
     void setDisableHexBtn();
     void setDisableDecBtn();
