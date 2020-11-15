@@ -1,6 +1,3 @@
 ﻿  Prog_Calc.cpp
-d:\edu\assignment\prog_calc\prog_calc.cpp(327): warning C4700: 초기화되지 않은 'charInsertedNum' 지역 변수를 사용했습니다.
-d:\edu\assignment\prog_calc\prog_calc.cpp(319): warning C4700: 초기화되지 않은 'charInsertedNum' 지역 변수를 사용했습니다.
-  moc_Prog_Calc.cpp
   Prog_Calc.vcxproj -> D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.exe
   Prog_Calc.vcxproj -> D:\Edu\Assignment\Prog_Calc\x64\Debug\Prog_Calc.pdb (Full PDB)
