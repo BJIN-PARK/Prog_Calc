@@ -25,7 +25,9 @@ public slots:
     bool isOperand(QChar elem);
     int getOperPrior(QString oper);
     int compareOperPrior(QString oper1, QString oper2);
+
 public:
+    int m_numeric_system;
     void inputBtnStringToStack();
     void displayResult();
 

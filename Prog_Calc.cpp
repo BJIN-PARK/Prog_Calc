@@ -263,8 +263,11 @@ void Prog_Calc::getResult()
 		}
 		i++;
 	}
-	postfix.push_back(stck_oper.top());
-	stck_oper.pop();
+	while (!stck_oper.empty())
+	{
+		postfix.push_back(stck_oper.top());
+		stck_oper.pop();
+	}
 
 	QString postfixFormula;
 	for (int i = 0; i < postfix.size(); i++)
@@ -327,8 +330,41 @@ void Prog_Calc::getResult()
 		i++;
 	}
 	QString result = stck_calcNum.top();
-	ui->Edit_Result_Num->setText(result);
+// 	if (m_numeric_system == 16)
+// 	{
+// 		int dec_result = result.toUInt();
+// 		convert_hex(dec_result);
+// 		ui->Edit_Result_Num->setText(result);
+// 	}
+// 	else if (m_numeric_system == 10)
+// 	{
+ 		ui->Edit_Result_Num->setText(result);
+// 	}
+// 	else if (m_numeric_system == 8)
+// 	{
+// 		int dec_result = result.toUInt();
+// 		ui->Edit_Result_Num->setText(result);
+// 	}
+// 	else if (m_numeric_system == 2)
+// 	{
+// 		int dec_result = result.toUInt();
+// 		ui->Edit_Result_Num->setText(result);
+// 	}
+// 	
 }
+
+// QString convert_hex(int dec_result)
+// {
+// 	int i = 0;
+// 	stack<QString> hex_result;
+// 	char code[] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+// 
+// 	do {
+// 		hex_result.push = QString(code[dec_result % 16]);
+// 	} while ((dec_result /= 16) > 0);
+// 
+// 	return ;
+// }
 
 bool Prog_Calc::isOperand(QChar elem)
 {
