@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <stack>
+#include <Qlist>
 #include "ui_Prog_Calc.h"
 
 using namespace std;
@@ -22,12 +23,13 @@ public slots:
     void clear();
     void getResult();
     bool isOperand(QChar elem);
+    int getOperPrior(QString oper);
+    int compareOperPrior(QString oper1, QString oper2);
 public:
     void inputBtnStringToStack();
-    void displayFomula();
+    void displayResult();
 
 private:
     Ui::Prog_Calc* ui;
-
     stack<QString> m_stckCalc;
 };

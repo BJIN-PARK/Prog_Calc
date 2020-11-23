@@ -45,7 +45,7 @@ Prog_Calc::~Prog_Calc()
 void Prog_Calc::onBtnClick()
 {
 	inputBtnStringToStack(); // Btn Text -> m_stckCalc
-	displayFomula(); // display fomula
+	displayResult(); // display Result
 }
 
 void Prog_Calc::clear()
@@ -144,7 +144,7 @@ inputString = QString("E");
 	m_stckCalc.push(inputString);
 }
 
-void Prog_Calc::displayFomula()
+void Prog_Calc::displayResult()
 {
 	ui->Edit_Calc_Num->clear();
 	stack<QString> stckCalc_copy; // stack copy...
@@ -170,6 +170,10 @@ void Prog_Calc::getResult()
 	// 숫자 합치기...
 	stack<QString> stckCalc_copy; // stack copy...
 	stack<QString> stckTemp; // stack reverse...
+	int frontNum;
+	int backNum;
+	int resultNum;
+	bool ok;
 	stckCalc_copy = m_stckCalc; // copy
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
@@ -209,16 +213,121 @@ void Prog_Calc::getResult()
 	for (int i = 0; i < size; i++)
 		m_stckCalc.pop();
 	m_stckCalc = stckCalc_copy;
-	displayFomula();
+	displayResult();
 
-	// 계산
-// 	while (strDisplayText.size() != 0)
-// 	{
-// 		for (int i = 0; i < strDisplayText.size(); i++)
-// 		{
-// 
-// 		}
-// 	}
+	QList<QString> infix;
+	QList<QString> postfix;
+	stack<QString> stck_oper;
+	int i = 0;
+
+	while (!m_stckCalc.empty())
+	{
+		infix.push_front(m_stckCalc.top());
+		m_stckCalc.pop();
+	}
+
+	while(!infix.empty())
+	{
+		if (infix.at(i) == "(") /* ( 를 만나면 푸시 */
+		{
+			stck_oper.push("(");
+			infix.removeAt(i);
+			i--;
+		}
+		else if (infix.at(i) == ")") /* ) 를 만나면 ( 가 나올 때까지 팝 */
+		{
+			while (stck_oper.top() != "(")
+			{
+				postfix.push_back(stck_oper.top());
+				stck_oper.pop();
+			}
+			stck_oper.pop();
+		}
+		else if (infix.at(i) == "*" || infix.at(i) == "/" || infix.at(i) == "+" || infix.at(i) == "-") /* 연산자이면 */
+		{
+			while (!stck_oper.empty() &&
+				getOperPrior(stck_oper.top()) >= getOperPrior(infix.at(i)))
+			{ /* 우선순위가 높은 연산자들을 모두 팝 */
+				postfix.push_back(stck_oper.top());
+				stck_oper.pop();
+			}
+			stck_oper.push(infix.at(i));
+			infix.removeAt(i);
+			i--;
+		}
+		else /* 피연산자는 그냥 출력 */
+		{
+			postfix.push_back(infix.at(i));
+			infix.removeAt(i);
+			i--;
+		}
+		i++;
+	}
+	postfix.push_back(stck_oper.top());
+	stck_oper.pop();
+
+	QString postfixFormula;
+	for (int i = 0; i < postfix.size(); i++)
+	{
+		postfixFormula.append(postfix.at(i));
+	}
+
+	ui->Edit_Result_Num->setText(postfixFormula);
+
+	stack<QString> stck_calcNum;
+	i = 0;
+	while (!postfix.empty())
+	{
+		if (postfix.at(i) == '*')
+		{
+		backNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		frontNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		stck_calcNum.push(QString::number(frontNum * backNum));
+		postfix.removeAt(i);
+		i--;
+		}
+		else if (postfix.at(i) == '/')
+		{
+			backNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			frontNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			stck_calcNum.push(QString::number(frontNum / backNum));
+			postfix.removeAt(i);
+			i--;
+		}
+		else if (postfix.at(i) == '+')
+		{
+		backNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		frontNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		stck_calcNum.push(QString::number(frontNum + backNum));
+		postfix.removeAt(i);
+		i--;
+		}
+		else if (postfix.at(i) == '-')
+		{
+		backNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		frontNum = stck_calcNum.top().toUInt(&ok, 10);
+		stck_calcNum.pop();
+		stck_calcNum.push(QString::number(frontNum - backNum));
+		postfix.removeAt(i);
+		i--;
+		}
+		else
+		{
+			stck_calcNum.push(postfix.at(i));
+			postfix.removeAt(i);
+			i--;
+		}
+		i++;
+	}
+	QString result = stck_calcNum.top();
+	ui->Edit_Result_Num->setText(result);
 }
 
 bool Prog_Calc::isOperand(QChar elem)
@@ -230,4 +339,29 @@ bool Prog_Calc::isOperand(QChar elem)
 		rtnValue = false;
 
 	return rtnValue;
+}
+
+int Prog_Calc::getOperPrior(QString oper)
+{
+	if (oper == "*" || oper == "/")
+		return 4;
+	else if (oper == "+" || oper == "-")
+		return 3;
+	else if (oper == "(")
+		return 2;
+	else
+		return 1;
+}
+
+int Prog_Calc::compareOperPrior(QString oper1, QString oper2)
+{
+	int oper1prior = getOperPrior(oper1);
+	int oper2prior = getOperPrior(oper2);
+
+	if (oper1prior > oper2prior)
+		return 1;
+	else if (oper2prior > oper1prior)
+		return -1;
+	else
+		return 0;
 }
