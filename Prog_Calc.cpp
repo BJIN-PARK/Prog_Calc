@@ -29,6 +29,8 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Subtract_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Multiply_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Division_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->L_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->R_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 
 	// cancle click...
 	connect(ui->Cancel_btn, &QPushButton::clicked, this, &Prog_Calc::clear);
@@ -141,6 +143,14 @@ inputString = QString("E");
 	{
 	inputString = QString("/");
 	}
+	else if (sender() == ui->L_Bracket_btn) // "("
+	{
+		inputString = QString("(");
+	}
+	else if (sender() == ui->R_Bracket_btn) // "("
+	{
+		inputString = QString(")");
+	}
 	m_stckCalc.push(inputString);
 }
 
@@ -192,9 +202,29 @@ void Prog_Calc::getResult()
 	{
 		if (isOperand(strDisplayText.at(i)))
 		{
-			stckCalc_copy.push(tempString);
-			tempString.clear();
-			stckCalc_copy.push(strDisplayText.at(i));
+			if (strDisplayText.at(i) == "(")
+			{
+				stckCalc_copy.push(strDisplayText.at(i));
+			}
+			else if (strDisplayText.at(i) == ")")
+			{
+				stckCalc_copy.push(tempString);
+				tempString.clear();
+				stckCalc_copy.push(strDisplayText.at(i));
+			}
+			else
+			{
+				if (tempString.isEmpty())
+				{
+					stckCalc_copy.push(strDisplayText.at(i));
+				}
+				else
+				{
+					stckCalc_copy.push(tempString);
+					tempString.clear();
+					stckCalc_copy.push(strDisplayText.at(i));
+				}
+			}
 		}
 		else if (i == strDisplayText.size() - 1)
 		{
@@ -241,6 +271,8 @@ void Prog_Calc::getResult()
 				postfix.push_back(stck_oper.top());
 				stck_oper.pop();
 			}
+			infix.removeAt(i);
+			i--;
 			stck_oper.pop();
 		}
 		else if (infix.at(i) == "*" || infix.at(i) == "/" || infix.at(i) == "+" || infix.at(i) == "-") /* 연산자이면 */
@@ -283,13 +315,13 @@ void Prog_Calc::getResult()
 	{
 		if (postfix.at(i) == '*')
 		{
-		backNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		frontNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		stck_calcNum.push(QString::number(frontNum * backNum));
-		postfix.removeAt(i);
-		i--;
+			backNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			frontNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			stck_calcNum.push(QString::number(frontNum * backNum));
+			postfix.removeAt(i);
+			i--;
 		}
 		else if (postfix.at(i) == '/')
 		{
@@ -303,23 +335,23 @@ void Prog_Calc::getResult()
 		}
 		else if (postfix.at(i) == '+')
 		{
-		backNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		frontNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		stck_calcNum.push(QString::number(frontNum + backNum));
-		postfix.removeAt(i);
-		i--;
+			backNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			frontNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			stck_calcNum.push(QString::number(frontNum + backNum));
+			postfix.removeAt(i);
+			i--;
 		}
 		else if (postfix.at(i) == '-')
 		{
-		backNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		frontNum = stck_calcNum.top().toUInt(&ok, 10);
-		stck_calcNum.pop();
-		stck_calcNum.push(QString::number(frontNum - backNum));
-		postfix.removeAt(i);
-		i--;
+			backNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			frontNum = stck_calcNum.top().toUInt(&ok, 10);
+			stck_calcNum.pop();
+			stck_calcNum.push(QString::number(frontNum - backNum));
+			postfix.removeAt(i);
+			i--;
 		}
 		else
 		{
@@ -369,7 +401,7 @@ void Prog_Calc::getResult()
 bool Prog_Calc::isOperand(QChar elem)
 {
 	bool rtnValue;
-	if (elem == "+" || elem == "-" || elem == "*" || elem == "/")
+	if (elem == "+" || elem == "-" || elem == "*" || elem == "/" || elem == "(" || elem == ")")
 		rtnValue = true;
 	else
 		rtnValue = false;
