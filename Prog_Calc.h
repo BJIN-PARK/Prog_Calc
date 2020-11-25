@@ -23,13 +23,20 @@ public slots:
     void clear();
     void getResult();
     bool isOperand(QChar elem);
+    bool isOperand();
     int getOperPrior(QString oper);
     int compareOperPrior(QString oper1, QString oper2);
+    void convert_bin();
+    void convert_oct();
+    void convert_dec();
+    void convert_hex();
 
 public:
+    int m_result;
     int m_numeric_system;
-    void inputBtnStringToStack();
-    void displayResult();
+    void inputBtnNumToStack();
+    void displayFormula();
+    void displayCurrentNum();
 
 private:
     Ui::Prog_Calc* ui;
