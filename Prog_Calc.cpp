@@ -6,8 +6,6 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 {
     ui->setupUi(this);
 
-	m_numeric_system = 10;
-
 	ui->Edit_Calc_Num->setReadOnly(true);
 	ui->Edit_Result_Num->setReadOnly(true);
 
@@ -43,11 +41,11 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	// equal click
 	connect(ui->Equal_btn, &QPushButton::clicked, this, &Prog_Calc::getResult);
 
-	// mode click
-	connect(ui->Hex_btn, &QPushButton::clicked, this, &Prog_Calc::convert_hex);
-	connect(ui->Dec_btn, &QPushButton::clicked, this, &Prog_Calc::convert_dec);
-	connect(ui->Oct_btn, &QPushButton::clicked, this, &Prog_Calc::convert_oct);
-	connect(ui->Bin_btn, &QPushButton::clicked, this, &Prog_Calc::convert_bin);
+	// convert click
+	connect(ui->Hex_btn, &QPushButton::clicked, this, &Prog_Calc::convertResult);
+	connect(ui->Dec_btn, &QPushButton::clicked, this, &Prog_Calc::convertResult);
+	connect(ui->Oct_btn, &QPushButton::clicked, this, &Prog_Calc::convertResult);
+	connect(ui->Bin_btn, &QPushButton::clicked, this, &Prog_Calc::convertResult);
 }
 
 Prog_Calc::~Prog_Calc()
@@ -57,12 +55,11 @@ Prog_Calc::~Prog_Calc()
 
 void Prog_Calc::onBtnClick()
 {
-	inputBtnNumToStack(); // btn Text -> m_stckCalc
-	displayCurrentNum(); // display current number
-	displayFormula(); // display formula
+	inputBtnNumToStack();	// btn Text -> m_stckCalc
+	displayFormula();		// display formula
 }
 
-void Prog_Calc::clear()
+void Prog_Calc::clear()		// reset all data
 {
 	ui->Edit_Calc_Num->clear();
 	ui->Edit_Result_Num->clear();
@@ -142,7 +139,7 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 	else if (sender() == ui->Add_btn) // "+"
 	{
-		if (m_stckCalc.empty())
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
 		{
 			return;
 		}
@@ -154,9 +151,9 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 	else if (sender() == ui->Subtract_btn) // "-"
 	{
-		if (m_stckCalc.empty())
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
 		{
-			return;
+			m_stckCalc.push(QString("0"));
 		}
 		else if (isOperand())
 		{
@@ -166,7 +163,7 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 	else if (sender() == ui->Multiply_btn) // "*"
 	{
-		if (m_stckCalc.empty())
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
 		{
 			return;
 		}
@@ -178,7 +175,7 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 	else if (sender() == ui->Division_btn) // "/"
 	{
-		if (m_stckCalc.empty())
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
 		{
 			return;
 		}
@@ -218,6 +215,7 @@ void Prog_Calc::displayFormula()
 	ui->Edit_Calc_Num->clear();
 	stack<QString> stckCalc_copy; // stack copy...
 	stack<QString> stckTemp; // stack reverse...
+
 	stckCalc_copy = m_stckCalc; // copy
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
@@ -234,11 +232,6 @@ void Prog_Calc::displayFormula()
 	ui->Edit_Calc_Num->setText(strDisplayText);
 }
 
-void Prog_Calc::displayCurrentNum()
-{
-
-}
-
 void Prog_Calc::getResult()
 {
 	// 숫자 합치기...
@@ -248,6 +241,16 @@ void Prog_Calc::getResult()
 	int backNum;
 	int resultNum;
 	bool ok;
+	if (m_stckCalc.size() == 1 && m_stckCalc.top() == "(")
+	{
+		m_stckCalc.push("0");
+		m_stckCalc.push(")");
+		QString solo_left_bracket;
+		solo_left_bracket.append("(");
+		solo_left_bracket.append("0");
+		solo_left_bracket.append(")");
+		ui->Edit_Calc_Num->setText(solo_left_bracket);
+	}
 	stckCalc_copy = m_stckCalc; // copy
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
@@ -425,29 +428,30 @@ void Prog_Calc::getResult()
 	QString result = stck_calcNum.top();
 	ui->Edit_Result_Num->setText(result);
 	m_result = result.toInt();
+	m_stckCalc.push(result);
 }
 
-void Prog_Calc::convert_hex()
+void Prog_Calc::convertResult()
 {
-	QString hex_result = QString("%1").arg(m_result, 0, 16);
-	ui->Edit_Result_Num->setText(hex_result);
-}
-
-void Prog_Calc::convert_dec()
-{
-	ui->Edit_Result_Num->setText(QString::number(m_result));
-}
-
-void Prog_Calc::convert_oct()
-{
-	QString oct_result = QString("%1").arg(m_result, 0, 8);
-	ui->Edit_Result_Num->setText(oct_result);
-}
-
-void Prog_Calc::convert_bin()
-{
-	QString bin_result = QString("%1").arg(m_result, 0, 2);
-	ui->Edit_Result_Num->setText(bin_result);
+	if (sender() == ui->Hex_btn)
+	{
+		QString hex_result = QString("%1").arg(m_result, 0, 16);
+		ui->Edit_Result_Num->setText(hex_result);
+	}
+	else if (sender() == ui->Dec_btn)
+	{
+		ui->Edit_Result_Num->setText(QString::number(m_result));
+	}
+	else if (sender() == ui->Oct_btn)
+	{
+		QString oct_result = QString("%1").arg(m_result, 0, 8);
+		ui->Edit_Result_Num->setText(oct_result);
+	}
+	else if (sender() == ui->Bin_btn)
+	{
+		QString bin_result = QString("%1").arg(m_result, 0, 2);
+		ui->Edit_Result_Num->setText(bin_result);
+	}
 }
 
 bool Prog_Calc::isOperand(QChar elem)

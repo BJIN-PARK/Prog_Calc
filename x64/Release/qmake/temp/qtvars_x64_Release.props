@@ -32,7 +32,7 @@
 <Qt_INCLUDEPATH_
       >$(Qt_INCLUDEPATH_);x64\Release\moc;x64\Release\uic</Qt_INCLUDEPATH_>
     <QtBkup_QtInstall
-      >msvc2015_64(5.10)</QtBkup_QtInstall>
+      >msvc2015_64</QtBkup_QtInstall>
     <QtBkup_QtModules
       >core;gui;widgets</QtBkup_QtModules>
     <QtBkup_QtPathBinaries

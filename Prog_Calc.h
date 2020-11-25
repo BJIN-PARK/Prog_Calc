@@ -26,17 +26,13 @@ public slots:
     bool isOperand();
     int getOperPrior(QString oper);
     int compareOperPrior(QString oper1, QString oper2);
-    void convert_bin();
-    void convert_oct();
-    void convert_dec();
-    void convert_hex();
+    void convertResult();
 
 public:
     int m_result;
     int m_numeric_system;
     void inputBtnNumToStack();
     void displayFormula();
-    void displayCurrentNum();
 
 private:
     Ui::Prog_Calc* ui;
