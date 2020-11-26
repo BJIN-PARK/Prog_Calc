@@ -20,6 +20,8 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Num_Seven_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Eight_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Nine_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+
+// 진수 입력 계산 미구현
 // 	connect(ui->A_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 // 	connect(ui->B_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 // 	connect(ui->C_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
@@ -61,42 +63,82 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 	switch (event->key())
 	{
 	case Qt::Key_0:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("0");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_1:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("1");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_2:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("2");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_3:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("3");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_4:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("4");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_5:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("5");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_6:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("6");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_7:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("7");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_8:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("8");
 		m_stckCalc.push(inputNum);
 		break;
 	case Qt::Key_9:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("9");
 		m_stckCalc.push(inputNum);
 		break;
@@ -255,44 +297,85 @@ void Prog_Calc::inputBtnNumToStack()
 	QString inputNum;
 	if (sender() == ui->Num_Zero_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("0");
 	}
 	else if (sender() == ui->Num_One_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("1");
 	}
 	else if (sender() == ui->Num_Two_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("2");
 	}
 	else if (sender() == ui->Num_Three_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("3");
 	}
 	else if (sender() == ui->Num_Four_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("4");
 	}
 	else if (sender() == ui->Num_Five_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("5");
 	}
 	else if (sender() == ui->Num_Six_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("6");
 	}
 	else if (sender() == ui->Num_Seven_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("7");
 	}
 	else if (sender() == ui->Num_Eight_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("8");
 	}
 	else if (sender() == ui->Num_Nine_btn)
 	{
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
 		inputNum = QString("9");
 	}
+// 진수 입력 계산 미구현
 // 	else if (sender() == ui->A_btn)
 // 	{
 // 		inputNum = QString("A");
