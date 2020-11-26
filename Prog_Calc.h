@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QKeyEvent>
+#include <QKeySequence>
 #include <iostream>
 #include <sstream>
 #include <stack>
@@ -30,12 +31,15 @@ public slots:
 
 public:
     int m_nResult;
-    int m_nLeftBracketCnt = 0;
-    int m_nRightBracketCnt = 0;
+    int m_nLeftParenCnt = 0;
+    int m_nRightParenCnt = 0;
     void inputBtnNumToStack();
     void displayFormula();
 
 private:
     Ui::Prog_Calc* ui;
     stack<QString> m_stckCalc;
+
+protected:
+    void keyPressEvent(QKeyEvent* event);
 };

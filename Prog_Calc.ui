@@ -220,7 +220,7 @@
      <string>F</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="R_Bracket_btn">
+   <widget class="QPushButton" name="Paren_Right_btn">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -246,7 +246,7 @@
      <string>％</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="L_Bracket_btn">
+   <widget class="QPushButton" name="Paren_Left_btn">
     <property name="geometry">
      <rect>
       <x>80</x>

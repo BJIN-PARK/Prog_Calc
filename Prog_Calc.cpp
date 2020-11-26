@@ -20,12 +20,12 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Num_Seven_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Eight_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Nine_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->A_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->B_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->C_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->D_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->E_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->F_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->A_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->B_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->C_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->D_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->E_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+// 	connect(ui->F_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->B_Space_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 
 	// operand click
@@ -34,8 +34,8 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Multiply_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Division_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Percent_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->L_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-	connect(ui->R_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->Paren_Left_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->Paren_Right_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 
 	// cancel click
 	connect(ui->Cancel_btn, &QPushButton::clicked, this, &Prog_Calc::clear);
@@ -53,6 +53,184 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 Prog_Calc::~Prog_Calc()
 {
     delete ui;
+}
+
+void Prog_Calc::keyPressEvent(QKeyEvent* event)
+{
+	QString inputNum;
+	switch (event->key())
+	{
+	case Qt::Key_0:
+		inputNum = QString("0");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_1:
+		inputNum = QString("1");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_2:
+		inputNum = QString("2");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_3:
+		inputNum = QString("3");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_4:
+		inputNum = QString("4");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_5:
+		inputNum = QString("5");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_6:
+		inputNum = QString("6");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_7:
+		inputNum = QString("7");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_8:
+		inputNum = QString("8");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_9:
+		inputNum = QString("9");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_Plus:
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			return;
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("+");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_Minus:
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			m_stckCalc.push(QString("0"));
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("-");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_Asterisk:
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			return;
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("*");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_division:
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			return;
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("/");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_Percent:
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			return;
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("%");
+		m_stckCalc.push(inputNum);
+		break;
+	case Qt::Key_ParenLeft:
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
+		else if (!m_stckCalc.empty() && !isOperand())
+		{
+			if (m_stckCalc.top() == "(")
+			{
+				inputNum = QString("(");
+				m_stckCalc.push(inputNum);
+				m_nLeftParenCnt++;
+			}
+		}
+		else
+		{
+			inputNum = QString("(");
+			m_stckCalc.push(inputNum);
+			m_nLeftParenCnt++;
+		}
+		break;
+	case Qt::Key_ParenRight:
+		if (m_stckCalc.empty() || isOperand())
+		{
+			return;
+		}
+		else if (m_nRightParenCnt >= m_nLeftParenCnt)
+		{
+			return;
+		}
+		else if (!m_stckCalc.empty() && m_stckCalc.top() == "(")
+		{
+			m_stckCalc.push("0");
+			inputNum = QString(")");
+			m_stckCalc.push(inputNum);
+			m_nRightParenCnt++;
+		}
+		else
+		{
+			inputNum = QString(")");
+			m_stckCalc.push(inputNum);
+			m_nRightParenCnt++;
+		}
+		break;
+	case Qt::Key_Backspace:
+		if (m_stckCalc.empty())
+		{
+			return;
+		}
+		else
+		{
+			m_stckCalc.pop();
+		}
+		break;
+	case Qt::Key_Enter:
+		getResult();
+		break;
+	case Qt::Key_Return:
+		getResult();
+		break;
+	case Qt::Key_Equal:
+		getResult();
+		break;
+	case Qt::Key_Escape:
+		clear();
+		break;
+	case Qt::Key_Delete:
+		clear();
+		break;
+	}
+	displayFormula();		// display formula
 }
 
 void Prog_Calc::onBtnClick()
@@ -115,30 +293,30 @@ void Prog_Calc::inputBtnNumToStack()
 	{
 		inputNum = QString("9");
 	}
-	else if (sender() == ui->A_btn)
-	{
-		inputNum = QString("A");
-	}
-	else if (sender() == ui->B_btn)
-	{
-		inputNum = QString("B");
-	}
-	else if (sender() == ui->C_btn)
-	{
-		inputNum = QString("C");
-	}
-	else if (sender() == ui->D_btn)
-	{
-		inputNum = QString("D");
-	}
-	else if (sender() == ui->E_btn)
-	{
-		inputNum = QString("E");
-	}
-	else if (sender() == ui->F_btn)
-	{
-		inputNum = QString("F");
-	}
+// 	else if (sender() == ui->A_btn)
+// 	{
+// 		inputNum = QString("A");
+// 	}
+// 	else if (sender() == ui->B_btn)
+// 	{
+// 		inputNum = QString("B");
+// 	}
+// 	else if (sender() == ui->C_btn)
+// 	{
+// 		inputNum = QString("C");
+// 	}
+// 	else if (sender() == ui->D_btn)
+// 	{
+// 		inputNum = QString("D");
+// 	}
+// 	else if (sender() == ui->E_btn)
+// 	{
+// 		inputNum = QString("E");
+// 	}
+// 	else if (sender() == ui->F_btn)
+// 	{
+// 		inputNum = QString("F");
+// 	}
 	else if (sender() == ui->Add_btn) // "+"
 	{
 		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
@@ -199,7 +377,7 @@ void Prog_Calc::inputBtnNumToStack()
 		}
 		inputNum = QString("%");
 	}
-	else if (sender() == ui->L_Bracket_btn) // "("
+	else if (sender() == ui->Paren_Left_btn) // "("
 	{
 		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
 		{
@@ -210,22 +388,22 @@ void Prog_Calc::inputBtnNumToStack()
 			if (m_stckCalc.top() == "(")
 			{
 				inputNum = QString("(");
-				m_nLeftBracketCnt++;
+				m_nLeftParenCnt++;
 			}
 		}
 		else
 		{
 			inputNum = QString("(");
-			m_nLeftBracketCnt++;
+			m_nLeftParenCnt++;
 		}
 	}
-	else if (sender() == ui->R_Bracket_btn) // ")"
+	else if (sender() == ui->Paren_Right_btn) // ")"
 	{
 		if (m_stckCalc.empty() || isOperand())
 		{
 			return;
 		}
-		else if (m_nRightBracketCnt >= m_nLeftBracketCnt)
+		else if (m_nRightParenCnt >= m_nLeftParenCnt)
 		{
 			return;
 		}
@@ -233,12 +411,12 @@ void Prog_Calc::inputBtnNumToStack()
 		{
 			m_stckCalc.push("0");
 			inputNum = QString(")");
-			m_nRightBracketCnt++;
+			m_nRightParenCnt++;
 		}
 		else
 		{
 			inputNum = QString(")");
-			m_nRightBracketCnt++;
+			m_nRightParenCnt++;
 		}
 	}
 	else if (sender() == ui->B_Space_btn)
@@ -296,17 +474,21 @@ void Prog_Calc::getResult()
 	{
 		m_stckCalc.push("0");
 	}
+	else if (m_stckCalc.top() == "+" || m_stckCalc.top() == "-" || m_stckCalc.top() == "*" || m_stckCalc.top() == "/" || m_stckCalc.top() == "%")
+	{
+		return;
+	}
 	else if (m_stckCalc.size() == 1 && m_stckCalc.top() == "(")
 	{
 		m_stckCalc.push("0");
 		m_stckCalc.push(")");
-		QString solo_left_bracket;
-		solo_left_bracket.append("(");
-		solo_left_bracket.append("0");
-		solo_left_bracket.append(")");
-		ui->Edit_Calc_Num->setText(solo_left_bracket);
+		QString solo_left_paren;
+		solo_left_paren.append("(");
+		solo_left_paren.append("0");
+		solo_left_paren.append(")");
+		ui->Edit_Calc_Num->setText(solo_left_paren);
 	}
-	else if (m_nRightBracketCnt != m_nLeftBracketCnt)
+	else if (m_nRightParenCnt != m_nLeftParenCnt)
 	{
 		return;
 	}
