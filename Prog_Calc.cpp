@@ -26,12 +26,14 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->D_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->E_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->F_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->B_Space_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 
 	// operand click
 	connect(ui->Add_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Subtract_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Multiply_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Division_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+	connect(ui->Percent_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->L_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->R_Bracket_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 
@@ -64,7 +66,7 @@ void Prog_Calc::clear()		// reset all data
 	ui->Edit_Calc_Num->clear();
 	ui->Edit_Result_Num->clear();
 
-	int m_result = 0;
+	int m_nResult = 0;
 	int size = m_stckCalc.size();
 	for(int i = 0; i < size; i++)
 		m_stckCalc.pop();
@@ -185,19 +187,69 @@ void Prog_Calc::inputBtnNumToStack()
 		}
 		inputNum = QString("/");
 	}
+	else if (sender() == ui->Percent_btn) // "%"
+	{
+		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
+		{
+			return;
+		}
+		else if (isOperand())
+		{
+			m_stckCalc.pop();
+		}
+		inputNum = QString("%");
+	}
 	else if (sender() == ui->L_Bracket_btn) // "("
 	{
-		inputNum = QString("(");
+		if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
+		{
+			return;
+		}
+		else if (!m_stckCalc.empty() && !isOperand())
+		{
+			if (m_stckCalc.top() == "(")
+			{
+				inputNum = QString("(");
+				m_nLeftBracketCnt++;
+			}
+		}
+		else
+		{
+			inputNum = QString("(");
+			m_nLeftBracketCnt++;
+		}
 	}
 	else if (sender() == ui->R_Bracket_btn) // ")"
 	{
-		if (m_stckCalc.empty() || isOperand() || m_stckCalc.top() == "(")
+		if (m_stckCalc.empty() || isOperand())
+		{
+			return;
+		}
+		else if (m_nRightBracketCnt >= m_nLeftBracketCnt)
+		{
+			return;
+		}
+		else if (!m_stckCalc.empty() && m_stckCalc.top() == "(")
+		{
+			m_stckCalc.push("0");
+			inputNum = QString(")");
+			m_nRightBracketCnt++;
+		}
+		else
+		{
+			inputNum = QString(")");
+			m_nRightBracketCnt++;
+		}
+	}
+	else if (sender() == ui->B_Space_btn)
+	{
+		if (m_stckCalc.empty())
 		{
 			return;
 		}
 		else
 		{
-			inputNum = QString(")");
+			m_stckCalc.pop();
 		}
 	}
 	if (inputNum == "")
@@ -215,7 +267,6 @@ void Prog_Calc::displayFormula()
 	ui->Edit_Calc_Num->clear();
 	stack<QString> stckCalc_copy; // stack copy...
 	stack<QString> stckTemp; // stack reverse...
-
 	stckCalc_copy = m_stckCalc; // copy
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
@@ -241,7 +292,11 @@ void Prog_Calc::getResult()
 	int backNum;
 	int resultNum;
 	bool ok;
-	if (m_stckCalc.size() == 1 && m_stckCalc.top() == "(")
+	if (m_stckCalc.empty())
+	{
+		m_stckCalc.push("0");
+	}
+	else if (m_stckCalc.size() == 1 && m_stckCalc.top() == "(")
 	{
 		m_stckCalc.push("0");
 		m_stckCalc.push(")");
@@ -250,6 +305,10 @@ void Prog_Calc::getResult()
 		solo_left_bracket.append("0");
 		solo_left_bracket.append(")");
 		ui->Edit_Calc_Num->setText(solo_left_bracket);
+	}
+	else if (m_nRightBracketCnt != m_nLeftBracketCnt)
+	{
+		return;
 	}
 	stckCalc_copy = m_stckCalc; // copy
 	for (int i = 0; i < m_stckCalc.size(); i++)
@@ -275,9 +334,16 @@ void Prog_Calc::getResult()
 			}
 			else if (strDisplayText.at(i) == ")")
 			{
-				stckCalc_copy.push(tempString);
-				tempString.clear();
-				stckCalc_copy.push(strDisplayText.at(i));
+				if (tempString.isEmpty())
+				{
+					stckCalc_copy.push(strDisplayText.at(i));
+				}
+				else
+				{
+					stckCalc_copy.push(tempString);
+					stckCalc_copy.push(strDisplayText.at(i));
+					tempString.clear();
+				}
 			}
 			else
 			{
@@ -341,7 +407,7 @@ void Prog_Calc::getResult()
 			i--;
 			stck_oper.pop();
 		}
-		else if (infix.at(i) == "*" || infix.at(i) == "/" || infix.at(i) == "+" || infix.at(i) == "-") /* 연산자이면 */
+		else if (infix.at(i) == "*" || infix.at(i) == "/" || infix.at(i) == "%" || infix.at(i) == "+" || infix.at(i) == "-") /* 연산자이면 */
 		{
 			while (!stck_oper.empty() &&
 				getOperPrior(stck_oper.top()) >= getOperPrior(infix.at(i)))
@@ -397,6 +463,16 @@ void Prog_Calc::getResult()
 			postfix.removeAt(i);
 			i--;
 		}
+		else if (postfix.at(i) == '%')
+		{
+			backNum = stck_calcNum.top().toInt(&ok, 10);
+			stck_calcNum.pop();
+			frontNum = stck_calcNum.top().toInt(&ok, 10);
+			stck_calcNum.pop();
+			stck_calcNum.push(QString::number(frontNum % backNum));
+			postfix.removeAt(i);
+			i--;
+		}
 		else if (postfix.at(i) == '+')
 		{
 			backNum = stck_calcNum.top().toInt(&ok, 10);
@@ -427,7 +503,7 @@ void Prog_Calc::getResult()
 	}
 	QString result = stck_calcNum.top();
 	ui->Edit_Result_Num->setText(result);
-	m_result = result.toInt();
+	m_nResult = result.toInt();
 	m_stckCalc.push(result);
 }
 
@@ -435,21 +511,21 @@ void Prog_Calc::convertResult()
 {
 	if (sender() == ui->Hex_btn)
 	{
-		QString hex_result = QString("%1").arg(m_result, 0, 16);
+		QString hex_result = QString("%1").arg(m_nResult, 0, 16);
 		ui->Edit_Result_Num->setText(hex_result);
 	}
 	else if (sender() == ui->Dec_btn)
 	{
-		ui->Edit_Result_Num->setText(QString::number(m_result));
+		ui->Edit_Result_Num->setText(QString::number(m_nResult));
 	}
 	else if (sender() == ui->Oct_btn)
 	{
-		QString oct_result = QString("%1").arg(m_result, 0, 8);
+		QString oct_result = QString("%1").arg(m_nResult, 0, 8);
 		ui->Edit_Result_Num->setText(oct_result);
 	}
 	else if (sender() == ui->Bin_btn)
 	{
-		QString bin_result = QString("%1").arg(m_result, 0, 2);
+		QString bin_result = QString("%1").arg(m_nResult, 0, 2);
 		ui->Edit_Result_Num->setText(bin_result);
 	}
 }
@@ -457,7 +533,7 @@ void Prog_Calc::convertResult()
 bool Prog_Calc::isOperand(QChar elem)
 {
 	bool bRtnValue;
-	if (elem == "+" || elem == "-" || elem == "*" || elem == "/" || elem == "(" || elem == ")")
+	if (elem == "+" || elem == "-" || elem == "*" || elem == "/" || elem == "%" || elem == "(" || elem == ")")
 		bRtnValue = true;
 	else
 		bRtnValue = false;
@@ -469,7 +545,7 @@ bool Prog_Calc::isOperand()
 {
 	QString strEndOper;
 	strEndOper = m_stckCalc.top();
-	if (strEndOper == "+" || strEndOper == "-" || strEndOper == "*" || strEndOper == "/")
+	if (strEndOper == "+" || strEndOper == "-" || strEndOper == "*" || strEndOper == "/" || strEndOper == "%")
 	{
 		return true;
 	}
@@ -481,7 +557,7 @@ bool Prog_Calc::isOperand()
 
 int Prog_Calc::getOperPrior(QString oper)
 {
-	if (oper == "*" || oper == "/")
+	if (oper == "*" || oper == "/" || oper == "%")
 		return 4;
 	else if (oper == "+" || oper == "-")
 		return 3;

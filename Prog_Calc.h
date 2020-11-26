@@ -29,8 +29,9 @@ public slots:
     void convertResult();
 
 public:
-    int m_result;
-    int m_numeric_system;
+    int m_nResult;
+    int m_nLeftBracketCnt = 0;
+    int m_nRightBracketCnt = 0;
     void inputBtnNumToStack();
     void displayFormula();
 

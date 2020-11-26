@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Prog_Calc_t {
-    QByteArrayData data[16];
-    char stringdata0[148];
+    QByteArrayData data[13];
+    char stringdata0[114];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,16 +43,12 @@ QT_MOC_LITERAL(8, 66, 4), // "oper"
 QT_MOC_LITERAL(9, 71, 16), // "compareOperPrior"
 QT_MOC_LITERAL(10, 88, 5), // "oper1"
 QT_MOC_LITERAL(11, 94, 5), // "oper2"
-QT_MOC_LITERAL(12, 100, 11), // "convert_bin"
-QT_MOC_LITERAL(13, 112, 11), // "convert_oct"
-QT_MOC_LITERAL(14, 124, 11), // "convert_dec"
-QT_MOC_LITERAL(15, 136, 11) // "convert_hex"
+QT_MOC_LITERAL(12, 100, 13) // "convertResult"
 
     },
     "Prog_Calc\0onBtnClick\0\0clear\0getResult\0"
     "isOperand\0elem\0getOperPrior\0oper\0"
-    "compareOperPrior\0oper1\0oper2\0convert_bin\0"
-    "convert_oct\0convert_dec\0convert_hex"
+    "compareOperPrior\0oper1\0oper2\0convertResult"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +58,7 @@ static const uint qt_meta_data_Prog_Calc[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,17 +66,14 @@ static const uint qt_meta_data_Prog_Calc[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x0a /* Public */,
-       3,    0,   70,    2, 0x0a /* Public */,
-       4,    0,   71,    2, 0x0a /* Public */,
-       5,    1,   72,    2, 0x0a /* Public */,
-       5,    0,   75,    2, 0x0a /* Public */,
-       7,    1,   76,    2, 0x0a /* Public */,
-       9,    2,   79,    2, 0x0a /* Public */,
-      12,    0,   84,    2, 0x0a /* Public */,
-      13,    0,   85,    2, 0x0a /* Public */,
-      14,    0,   86,    2, 0x0a /* Public */,
-      15,    0,   87,    2, 0x0a /* Public */,
+       1,    0,   54,    2, 0x0a /* Public */,
+       3,    0,   55,    2, 0x0a /* Public */,
+       4,    0,   56,    2, 0x0a /* Public */,
+       5,    1,   57,    2, 0x0a /* Public */,
+       5,    0,   60,    2, 0x0a /* Public */,
+       7,    1,   61,    2, 0x0a /* Public */,
+       9,    2,   64,    2, 0x0a /* Public */,
+      12,    0,   69,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -90,9 +83,6 @@ static const uint qt_meta_data_Prog_Calc[] = {
     QMetaType::Bool,
     QMetaType::Int, QMetaType::QString,    8,
     QMetaType::Int, QMetaType::QString, QMetaType::QString,   10,   11,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -115,10 +105,7 @@ void Prog_Calc::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
         case 6: { int _r = _t->compareOperPrior((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
-        case 7: _t->convert_bin(); break;
-        case 8: _t->convert_oct(); break;
-        case 9: _t->convert_dec(); break;
-        case 10: _t->convert_hex(); break;
+        case 7: _t->convertResult(); break;
         default: ;
         }
     }
@@ -149,13 +136,13 @@ int Prog_Calc::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 8;
     }
     return _id;
 }
