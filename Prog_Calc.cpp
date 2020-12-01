@@ -9,7 +9,9 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	ui->Edit_Calc_Num->setReadOnly(true);
 	ui->Edit_Result_Num->setReadOnly(true);
 
-	// Number btn Click 
+	this->setFocus();
+
+	// Number btn Click
 	connect(ui->Num_Zero_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_One_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Two_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
@@ -61,6 +63,7 @@ Prog_Calc::~Prog_Calc()
 
 void Prog_Calc::keyPressEvent(QKeyEvent* event)
 {
+
 	QString inputNum;
 	switch (event->key())
 	{

@@ -42,5 +42,5 @@ private:
     stack<QString> m_stckCalc;
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event) override;
 };
