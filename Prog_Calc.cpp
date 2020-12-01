@@ -218,6 +218,7 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 			m_nRightParenCnt++;
 		}
 		break;
+		//실행 시 왼쪽Alt 혹은 Tap 키 입력 혹은 다른 QPushButton 클릭 후 활성화(원인파악 중)
 	case Qt::Key_Backspace:
 		if (m_stckCalc.empty())
 		{
@@ -225,6 +226,14 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 		}
 		else
 		{
+			if (m_stckCalc.top() == ("("))
+			{
+				m_nLeftParenCnt--;
+			}
+			else if (m_stckCalc.top() == (")"))
+			{
+				m_nRightParenCnt--;
+			}
 			m_stckCalc.pop();
 		}
 		break;
@@ -240,6 +249,7 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Escape:
 		clear();
 		break;
+	//실행 시 왼쪽Alt 혹은 Tap 키 입력 혹은 다른 QPushButton 클릭 후 활성화(원인파악 중)
 	case Qt::Key_Delete:
 		clear();
 		break;
@@ -448,14 +458,15 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 	else if (sender() == ui->Backspace_btn)
 	{
-		if (m_stckCalc.empty())
+		if (m_stckCalc.top() == ("("))
 		{
-			return;
+			m_nLeftParenCnt--;
 		}
-		else
+		else if (m_stckCalc.top() == (")"))
 		{
-			m_stckCalc.pop();
+			m_nRightParenCnt--;
 		}
+		m_stckCalc.pop();
 	}
 	if (inputNum == "")
 	{
