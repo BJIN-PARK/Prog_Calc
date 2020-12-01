@@ -26,7 +26,7 @@ public slots:
     bool isOperand(QChar elem);
     bool isOperand();
     int getOperPrior(QString oper);
-    int compareOperPrior(QString oper1, QString oper2);
+    int compareOperPrior(QString first_oper, QString secont_oper);
     void convertResult();
 
 public:
@@ -35,6 +35,7 @@ public:
     int m_nRightParenCnt = 0;
     void inputBtnNumToStack();
     void displayFormula();
+    void isRightNumLoc();
 
 private:
     Ui::Prog_Calc* ui;

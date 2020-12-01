@@ -103,7 +103,7 @@
      <string>C</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="B_Space_btn">
+   <widget class="QPushButton" name="Backspace_btn">
     <property name="geometry">
      <rect>
       <x>290</x>

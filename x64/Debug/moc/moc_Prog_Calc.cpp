@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Prog_Calc_t {
     QByteArrayData data[13];
-    char stringdata0[114];
+    char stringdata0[125];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,14 +41,15 @@ QT_MOC_LITERAL(6, 48, 4), // "elem"
 QT_MOC_LITERAL(7, 53, 12), // "getOperPrior"
 QT_MOC_LITERAL(8, 66, 4), // "oper"
 QT_MOC_LITERAL(9, 71, 16), // "compareOperPrior"
-QT_MOC_LITERAL(10, 88, 5), // "oper1"
-QT_MOC_LITERAL(11, 94, 5), // "oper2"
-QT_MOC_LITERAL(12, 100, 13) // "convertResult"
+QT_MOC_LITERAL(10, 88, 10), // "first_oper"
+QT_MOC_LITERAL(11, 99, 11), // "secont_oper"
+QT_MOC_LITERAL(12, 111, 13) // "convertResult"
 
     },
     "Prog_Calc\0onBtnClick\0\0clear\0getResult\0"
     "isOperand\0elem\0getOperPrior\0oper\0"
-    "compareOperPrior\0oper1\0oper2\0convertResult"
+    "compareOperPrior\0first_oper\0secont_oper\0"
+    "convertResult"
 };
 #undef QT_MOC_LITERAL
 

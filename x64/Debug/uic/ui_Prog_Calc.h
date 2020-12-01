@@ -34,7 +34,7 @@ public:
     QPushButton *L_Shift_btn;
     QPushButton *R_Shift_btn;
     QPushButton *Cancel_btn;
-    QPushButton *B_Space_btn;
+    QPushButton *Backspace_btn;
     QPushButton *Dec_btn;
     QPushButton *Oct_btn;
     QPushButton *Bin_btn;
@@ -99,9 +99,9 @@ public:
         Cancel_btn = new QPushButton(centralWidget);
         Cancel_btn->setObjectName(QStringLiteral("Cancel_btn"));
         Cancel_btn->setGeometry(QRect(220, 210, 70, 28));
-        B_Space_btn = new QPushButton(centralWidget);
-        B_Space_btn->setObjectName(QStringLiteral("B_Space_btn"));
-        B_Space_btn->setGeometry(QRect(290, 210, 70, 28));
+        Backspace_btn = new QPushButton(centralWidget);
+        Backspace_btn->setObjectName(QStringLiteral("Backspace_btn"));
+        Backspace_btn->setGeometry(QRect(290, 210, 70, 28));
         Dec_btn = new QPushButton(centralWidget);
         Dec_btn->setObjectName(QStringLiteral("Dec_btn"));
         Dec_btn->setGeometry(QRect(10, 120, 350, 28));
@@ -218,7 +218,7 @@ public:
         L_Shift_btn->setText(QApplication::translate("Prog_Calc", "<<", nullptr));
         R_Shift_btn->setText(QApplication::translate("Prog_Calc", ">>", nullptr));
         Cancel_btn->setText(QApplication::translate("Prog_Calc", "C", nullptr));
-        B_Space_btn->setText(QApplication::translate("Prog_Calc", "\342\206\220", nullptr));
+        Backspace_btn->setText(QApplication::translate("Prog_Calc", "\342\206\220", nullptr));
         Dec_btn->setText(QApplication::translate("Prog_Calc", "DEC", nullptr));
         Oct_btn->setText(QApplication::translate("Prog_Calc", "OCT", nullptr));
         Bin_btn->setText(QApplication::translate("Prog_Calc", "BIN", nullptr));
