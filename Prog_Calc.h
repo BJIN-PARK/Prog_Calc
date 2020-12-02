@@ -23,19 +23,21 @@ public slots:
     void onBtnClick();
     void clear();
     void getResult();
-    bool isOperand(QChar elem);
+    bool isNumber(QChar elem);
     bool isOperand();
     int getOperPrior(QString oper);
     int compareOperPrior(QString first_oper, QString secont_oper);
     void convertResult();
+    void reverseResult();
 
 public:
     int m_nResult;
     int m_nLeftParenCnt = 0;
     int m_nRightParenCnt = 0;
+    int m_nNumericSystem = 10;
     void inputBtnNumToStack();
     void displayFormula();
-    void isRightNumLoc();
+    bool isRightNumLoc();
 
 private:
     Ui::Prog_Calc* ui;

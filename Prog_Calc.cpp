@@ -9,6 +9,7 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	ui->Edit_Calc_Num->setReadOnly(true);
 	ui->Edit_Result_Num->setReadOnly(true);
 
+	// 프로그램 시작 시 선택영역 설정
 	this->setFocus();
 
 	// Number btn Click
@@ -22,7 +23,6 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Num_Seven_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Eight_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Num_Nine_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
-
 // 진수 입력 계산 미구현
 // 	connect(ui->A_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 // 	connect(ui->B_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
@@ -40,8 +40,13 @@ Prog_Calc::Prog_Calc(QWidget* parent)
 	connect(ui->Multiply_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Division_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Percent_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+
+	// Parentheses(소괄호) click
 	connect(ui->Paren_Left_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
 	connect(ui->Paren_Right_btn, &QPushButton::clicked, this, &Prog_Calc::onBtnClick);
+
+	// reverse click
+	connect(ui->Reversal_btn, &QPushButton::clicked, this, &Prog_Calc::reverseResult);
 
 	// cancel click
 	connect(ui->Cancel_btn, &QPushButton::clicked, this, &Prog_Calc::clear);
@@ -68,54 +73,74 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 	switch (event->key())
 	{
 	case Qt::Key_0:
-		isRightNumLoc();
-		inputNum = QString("0");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("0");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_1:
-		isRightNumLoc();
-		inputNum = QString("1");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("1");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_2:
-		isRightNumLoc();
-		inputNum = QString("2");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("2");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_3:
-		isRightNumLoc();
-		inputNum = QString("3");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("3");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_4:
-		isRightNumLoc();
-		inputNum = QString("4");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("4");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_5:
-		isRightNumLoc();
-		inputNum = QString("5");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("5");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_6:
-		isRightNumLoc();
-		inputNum = QString("6");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("6");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_7:
-		isRightNumLoc();
-		inputNum = QString("7");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("7");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_8:
-		isRightNumLoc();
-		inputNum = QString("8");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("8");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_9:
-		isRightNumLoc();
-		inputNum = QString("9");
-		m_stckCalc.push(inputNum);
+		if (isRightNumLoc())
+		{
+			inputNum = QString("9");
+			m_stckCalc.push(inputNum);
+		}
 		break;
 	case Qt::Key_Plus:
 		if (m_stckCalc.empty() || m_stckCalc.top() == "(")
@@ -221,7 +246,6 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 			m_nRightParenCnt++;
 		}
 		break;
-		//실행 시 왼쪽Alt 혹은 Tap 키 입력 혹은 다른 QPushButton 클릭 후 활성화(원인파악 중)
 	case Qt::Key_Backspace:
 		if (m_stckCalc.empty())
 		{
@@ -252,31 +276,11 @@ void Prog_Calc::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Escape:
 		clear();
 		break;
-	//실행 시 왼쪽Alt 혹은 Tap 키 입력 혹은 다른 QPushButton 클릭 후 활성화(원인파악 중)
 	case Qt::Key_Delete:
 		clear();
 		break;
 	}
-	displayFormula();		// display formula
-}
-
-void Prog_Calc::onBtnClick()
-{
-	inputBtnNumToStack();	// btn Text -> m_stckCalc
-	displayFormula();		// display formula
-}
-
-void Prog_Calc::clear()		// reset all data
-{
-	ui->Edit_Calc_Num->clear();
-	ui->Edit_Result_Num->clear();
-
-	int m_nResult = 0;
-	int size = m_stckCalc.size();
-	for (int i = 0; i < size; i++)
-	{
-		m_stckCalc.pop();
-	}
+	displayFormula();
 }
 
 void Prog_Calc::inputBtnNumToStack()
@@ -284,55 +288,85 @@ void Prog_Calc::inputBtnNumToStack()
 	QString inputNum;
 	if (sender() == ui->Num_Zero_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("0");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("0");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_One_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("1");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("1");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Two_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("2");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("2");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Three_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("3");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("3");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Four_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("4");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("4");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Five_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("5");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("5");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Six_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("6");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("6");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Seven_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("7");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("7");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Eight_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("8");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("8");
+		}
+		return;
 	}
 	else if (sender() == ui->Num_Nine_btn)
 	{
-		isRightNumLoc();
-		inputNum = QString("9");
+		if (isRightNumLoc())
+		{
+			inputNum = QString("9");
+		}
+		return;
 	}
-// 진수 입력 계산 미구현
+	// 진수 입력 계산 미구현
 // 	else if (sender() == ui->A_btn)
 // 	{
 // 		inputNum = QString("A");
@@ -481,36 +515,55 @@ void Prog_Calc::inputBtnNumToStack()
 	}
 }
 
+void Prog_Calc::onBtnClick()
+{
+	inputBtnNumToStack();	// btn Text -> m_stckCalc
+	displayFormula();		// display formula
+}
+
+void Prog_Calc::clear()		// reset all data
+{
+	ui->Edit_Calc_Num->clear();
+	ui->Edit_Result_Num->clear();
+
+	int m_nResult = 0;
+	int size = m_stckCalc.size();
+	for (int i = 0; i < size; i++)
+	{
+		m_stckCalc.pop();
+	}
+}
+
 void Prog_Calc::displayFormula()
 {
 	ui->Edit_Calc_Num->clear();
-	stack<QString> stckCalc_copy; // stack copy...
-	stack<QString> stckTemp; // stack reverse...
-	stckCalc_copy = m_stckCalc; // copy
+	stack<QString> stckCalc_copy;
+	stack<QString> stckTemp;
+	stckCalc_copy = m_stckCalc;
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
-		stckTemp.push(stckCalc_copy.top()); // top elem...
-		stckCalc_copy.pop(); // pop...
+		stckTemp.push(stckCalc_copy.top());
+		stckCalc_copy.pop();
 	}
 
 	QString strDisplayText;
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
-		strDisplayText.append(stckTemp.top()); // top elem...
-		stckTemp.pop(); // pop...
+		strDisplayText.append(stckTemp.top());
+		stckTemp.pop();
 	}
 	ui->Edit_Calc_Num->setText(strDisplayText);
 }
 
 void Prog_Calc::getResult()
 {
-	// 숫자 합치기...
-	stack<QString> stckCalc_copy; // stack copy...
-	stack<QString> stckTemp; // stack reverse...
+	stack<QString> stckCalc_copy;
+	stack<QString> stckTemp;
 	int frontNum;
 	int backNum;
 	int resultNum;
 	bool ok;
+
 	if (m_stckCalc.empty())
 	{
 		m_stckCalc.push("0");
@@ -533,23 +586,25 @@ void Prog_Calc::getResult()
 	{
 		return;
 	}
-	stckCalc_copy = m_stckCalc; // copy
+
+	stckCalc_copy = m_stckCalc;
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
-		stckTemp.push(stckCalc_copy.top()); // top elem...
-		stckCalc_copy.pop(); // pop...
+		stckTemp.push(stckCalc_copy.top());
+		stckCalc_copy.pop();
 	}
 
 	QString strDisplayText;
 	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
-		strDisplayText.append(stckTemp.top()); // top elem...
-		stckTemp.pop(); // pop...
+		strDisplayText.append(stckTemp.top());
+		stckTemp.pop();
 	}
+
 	QString tempString;
 	for (int i = 0; i < strDisplayText.size(); i++)
 	{
-		if (isOperand(strDisplayText.at(i)))
+		if (!isNumber(strDisplayText.at(i)))
 		{
 			if (strDisplayText.at(i) == "(")
 			{
@@ -615,13 +670,13 @@ void Prog_Calc::getResult()
 
 	while(!infix.empty())
 	{
-		if (infix.at(i) == "(") /* ( 를 만나면 푸시 */
+		if (infix.at(i) == "(")	// ( 를 만나면 푸시
 		{
 			stck_oper.push("(");
 			infix.removeAt(i);
 			i--;
 		}
-		else if (infix.at(i) == ")") /* ) 를 만나면 ( 가 나올 때까지 팝 */
+		else if (infix.at(i) == ")")	// ) 를 만나면 ( 가 나올 때까지 팝 
 		{
 			while (stck_oper.top() != "(")
 			{
@@ -636,7 +691,7 @@ void Prog_Calc::getResult()
 		{
 			while (!stck_oper.empty() &&
 				getOperPrior(stck_oper.top()) >= getOperPrior(infix.at(i)))
-			{ /* 우선순위가 높은 연산자들을 모두 팝 */
+			{	// 우선순위가 높은 연산자들을 모두 팝 
 				postfix.push_back(stck_oper.top());
 				stck_oper.pop();
 			}
@@ -644,7 +699,7 @@ void Prog_Calc::getResult()
 			infix.removeAt(i);
 			i--;
 		}
-		else /* 피연산자는 그냥 출력 */
+		else    // 숫자는 그냥 출력 
 		{
 			postfix.push_back(infix.at(i));
 			infix.removeAt(i);
@@ -756,41 +811,49 @@ void Prog_Calc::getResult()
 	}
 }
 
+// 결과값 진수변환
 void Prog_Calc::convertResult()
 {
 	if (sender() == ui->Hex_btn)
 	{
+		m_nNumericSystem = 16;
 		QString hex_result = QString("%1").arg(m_nResult, 0, 16);
 		ui->Edit_Result_Num->setText(hex_result);
 	}
 	else if (sender() == ui->Dec_btn)
 	{
+		m_nNumericSystem = 10;
 		ui->Edit_Result_Num->setText(QString::number(m_nResult));
 	}
 	else if (sender() == ui->Oct_btn)
 	{
+		m_nNumericSystem = 8;
 		QString oct_result = QString("%1").arg(m_nResult, 0, 8);
 		ui->Edit_Result_Num->setText(oct_result);
 	}
 	else if (sender() == ui->Bin_btn)
 	{
+		m_nNumericSystem = 2;
 		QString bin_result = QString("%1").arg(m_nResult, 0, 2);
 		ui->Edit_Result_Num->setText(bin_result);
 	}
 }
 
-bool Prog_Calc::isOperand(QChar strEndOper)
+
+// 숫자인지 확인
+bool Prog_Calc::isNumber(QChar strEndOper)
 {
 	if (strEndOper == "+" || strEndOper == "-" || strEndOper == "*" || strEndOper == "/" || strEndOper == "%" || strEndOper == "(" || strEndOper == ")")
 	{
-		return true;
+		return false;
 	}
 	else
 	{
-		return false;
+		return true;
 	}
 }
 
+// 연산자 확인
 bool Prog_Calc::isOperand()
 {
 	QString strEndOper;
@@ -805,6 +868,7 @@ bool Prog_Calc::isOperand()
 	}
 }
 
+// 연산자 우선순위
 int Prog_Calc::getOperPrior(QString oper)
 {
 	if (oper == "*" || oper == "/" || oper == "%")
@@ -817,6 +881,7 @@ int Prog_Calc::getOperPrior(QString oper)
 		return 1;
 }
 
+// 연산자 우선순위 비교
 int Prog_Calc::compareOperPrior(QString first_oper, QString second_oper)
 {
 	int first_oper_prior = getOperPrior(first_oper);
@@ -830,10 +895,38 @@ int Prog_Calc::compareOperPrior(QString first_oper, QString second_oper)
 		return 0;
 }
 
-void Prog_Calc::isRightNumLoc()
+// )뒤에 숫자 입력 방지
+bool Prog_Calc::isRightNumLoc()
 {
 	if (!m_stckCalc.empty() && m_stckCalc.top() == ")")
 	{
-		return;
+		return false;
 	}
+	return true;
+}
+
+// 보수 표현
+void Prog_Calc::reverseResult()
+{
+	m_nResult = 0 - m_nResult;
+	if (m_nNumericSystem == 16)
+	{
+		QString hex_result = QString("%1").arg(m_nResult, 0, 16);
+		ui->Edit_Result_Num->setText(hex_result);
+	}
+	else if (m_nNumericSystem == 10)
+	{
+		ui->Edit_Result_Num->setText(QString::number(m_nResult));
+	}
+	else if (m_nNumericSystem == 8)
+	{
+		QString oct_result = QString("%1").arg(m_nResult, 0, 8);
+		ui->Edit_Result_Num->setText(oct_result);
+	}
+	else if (m_nNumericSystem == 2)
+	{
+		QString bin_result = QString("%1").arg(m_nResult, 0, 2);
+		ui->Edit_Result_Num->setText(bin_result);
+	}
+	displayFormula();
 }
