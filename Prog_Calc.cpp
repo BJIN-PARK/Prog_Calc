@@ -527,8 +527,7 @@ void Prog_Calc::clear()		// reset all data
 	ui->Edit_Result_Num->clear();
 
 	int m_nResult = 0;
-	int size = m_stckCalc.size();
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < m_stckCalc.size(); i++)
 	{
 		m_stckCalc.pop();
 	}
@@ -798,8 +797,9 @@ void Prog_Calc::getResult()
 		}
 		i++;
 	}
-	if (error_detect_cnt > 0)
+	if (error_detect_cnt != 0)
 	{
+		clear();
 		ui->Edit_Result_Num->setText("ERROR");
 	}
 	else
